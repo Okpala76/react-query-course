@@ -1,10 +1,14 @@
+import React from "react";
 import { Route, Routes, Link, useMatch } from "react-router-dom";
 import Issues from "./pages/Issues";
 import Issue from "./pages/Issue";
 import AddIssue from "./pages/AddIssue";
+import Cruise3 from "./CruiseFolder/Cruise3";
+import FetchingIndicator from "./components/FetchingIndicator";
 
 function App() {
   const isRootPath = useMatch({ path: "/", end: true });
+
   return (
     <div className="App">
       {!isRootPath ? (
@@ -13,11 +17,13 @@ function App() {
         <span>&nbsp;</span>
       )}
       <h1>Issue Tracker</h1>
+
       <Routes>
-        <Route path="/" element={<Issues />} />
+        <Route path="/" element={<Issues/>} />
         <Route path="/add" element={<AddIssue />} />
         <Route path="/issue/:number" element={<Issue />} />
       </Routes>
+      <FetchingIndicator/>
     </div>
   );
 }

@@ -1,3 +1,10 @@
+import React from "react";
+
+
 export default function AddIssue() {
-  return <h2>Add Issue</h2>;
+
+  return  <div>
+            <h1> ADd Issues</h1>
+          </div>
+
 }
