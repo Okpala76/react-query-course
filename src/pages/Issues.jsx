@@ -3,10 +3,11 @@ import IssuesList from "../components/IssuesList";
 import LabelList from "../components/LabelList";
 import { useState } from "react";
 import { StatusSelect } from "../components/StatusSelect";
+import { Link } from "react-router-dom";
 
 export default function Issues() {
   const [labels, setLabels] = useState([]);
-  const [status, setStatus ] = useState("");
+  const [status, setStatus] = useState("");
 
   return (
     <div>
@@ -22,8 +23,8 @@ export default function Issues() {
               setLabels((currentlabels) =>
                 currentlabels.includes(label)
                   ? currentlabels.filter(
-                      (currentlabel) => currentlabel != label,
-                    )
+                    (currentlabel) => currentlabel != label,
+                  )
                   : currentlabels.concat(label),
               )
             }
@@ -33,6 +34,11 @@ export default function Issues() {
             value={status}
             onChange={(event) => setStatus(event.target.value)}
           />
+
+          <hr />
+          <Link className="button" to="/add">
+            Add Issue
+          </Link>
         </aside>
       </main>
     </div>

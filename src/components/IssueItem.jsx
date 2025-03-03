@@ -23,11 +23,17 @@ export function IssueItem({
   return (
     <li 
     onMouseEnter={() => {
-      queryClient.prefetchQuery(["issues", number.toString()],
-      () => fetch(`/api/issues/${number}`).then((response) => response));
-
-      queryClient.prefetchQuery(["issues", number.toString(),"comments"],
-      () => fetchWithError(`/api/issues/${number}/comments`));
+      queryClient.prefetchQuery({
+        queryKey: ["issues", number.toString()],
+        queryFn: () =>
+          fetchWithError(`/api/issues/${number}`)
+      });
+    
+      queryClient.prefetchQuery({
+        queryKey: ["issues", number.toString(), "comments"],
+        queryFn: () =>
+          fetchWithError(`/api/issues/${number}/comments`)
+      });
     }}
     >
       <div>

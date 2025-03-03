@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { IssueHeader } from "./IssueHeader";
 import { relativeDate } from "../helpers/relativeDate";
 import { useUserData } from "../helpers/useUserData";
+import IssueStatus from "./IssueStatus";
 
 function useIssueData(issueNumber) {
   return useQuery({
@@ -65,6 +66,9 @@ export default function IssueDetails() {
           <section>
           {commentsQuery.isLoading ? (<p>Loading...</p> ): (commentsQuery.data?.map(comment => ( <Comment key={comment.id} {...comment}/>)))}
           </section>
+          <aside>
+            <IssueStatus status={issuesQuery.data.status} issueNumber={issuesQuery.data.number.toString()}/>
+          </aside>
         </main>
         </>
       )}
