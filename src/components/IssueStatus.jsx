@@ -21,7 +21,7 @@ export default function IssueStatus({status , issueNumber}) {
         onMutate: async (status) => {
             await queryClient.cancelQueries(["issues", issueNumber]);
 
-            const previousIssue = queryClient.getQueryData(["issues", issueNumber]);
+            const previousIssue = queryClient.getQueryData(["issues", issueNumber]).status;
 
             queryClient.setQueryData(["issues", issueNumber], (old) => ({
                 ...old,
