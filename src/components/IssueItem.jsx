@@ -1,11 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { GoIssueOpened, GoIssueClosed, GoComment } from "react-icons/go";
-import { relativeDate } from "../helpers/relativeDate";
-import { useUserData } from "../helpers/useUserData";
-import { Labels } from "./Labels";
-import { useQueryClient } from "@tanstack/react-query";
-import fetchWithError from "../helpers/fetchWithError";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { GoIssueOpened, GoIssueClosed, GoComment } from 'react-icons/go';
+import { relativeDate } from '../helpers/relativeDate';
+import { useUserData } from '../helpers/useUserData';
+import { Labels } from './Labels';
+import { useQueryClient } from '@tanstack/react-query';
+import fetchWithError from '../helpers/fetchWithError';
 
 export function IssueItem({
   title,
@@ -19,50 +19,49 @@ export function IssueItem({
 }) {
   const assigneeUser = useUserData(assignee);
   const createdByUser = useUserData(createdBy);
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return (
-    <li 
-    onMouseEnter={() => {
-      queryClient.prefetchQuery({
-        queryKey: ["issues", number.toString()],
-        queryFn: () =>
-          fetchWithError(`/api/issues/${number}`)
-      });
-    
-      queryClient.prefetchQuery({
-        queryKey: ["issues", number.toString(), "comments"],
-        queryFn: () =>
-          fetchWithError(`/api/issues/${number}/comments`)
-      });
-    }}
+    <li
+      onMouseEnter={() => {
+        queryClient.prefetchQuery({
+          queryKey: ['issues', number.toString()],
+          queryFn: () => fetchWithError(`/api/issues/${number}`),
+        });
+
+        queryClient.prefetchInfiniteQuery({
+          queryKey: ['issues', number.toString(), 'comments'],
+          queryFn: () =>
+            fetchWithError(`/api/issues/${number}/comments?page=1`),
+        });
+      }}
     >
       <div>
-        {status === "done" || status === "cancelled" ? (
-          <GoIssueClosed style={{ color: "red" }} />
+        {status === 'done' || status === 'cancelled' ? (
+          <GoIssueClosed style={{ color: 'red' }} />
         ) : (
-          <GoIssueOpened style={{ color: "green" }} />
+          <GoIssueOpened style={{ color: 'green' }} />
         )}
       </div>
       <div className="issue-content">
         <span>
           <Link to={`/issue/${number}`}>{title}</Link>
           {labels.map((label) => (
-            <Labels key ={label} label={label}/>
+            <Labels key={label} label={label} />
           ))}
         </span>
         <small>
-          #{number} opened {relativeDate(createdDate)}{" "}
-          {createdByUser.isSuccess ? `by ${createdByUser.data.name}` : ""}
+          #{number} opened {relativeDate(createdDate)}{' '}
+          {createdByUser.isSuccess ? `by ${createdByUser.data.name}` : ''}
         </small>
       </div>
       {assignee ? (
         <img
           src={
-            assigneeUser.isSuccess ? assigneeUser.data.profilePictureUrl : ""
+            assigneeUser.isSuccess ? assigneeUser.data.profilePictureUrl : ''
           }
           className="assigned-to"
           alt={`Assigned to ${
-            assigneeUser.isSuccess ? assigneeUser.data.name : "avatar"
+            assigneeUser.isSuccess ? assigneeUser.data.name : 'avatar'
           }`}
         />
       ) : null}
@@ -77,5 +76,3 @@ export function IssueItem({
     </li>
   );
 }
-
-

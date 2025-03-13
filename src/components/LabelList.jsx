@@ -1,7 +1,7 @@
-import React from "react";
-import { useLabelsData } from "../helpers/useLabelsData";
+import React from 'react';
+import { useLabelsData } from '../helpers/useLabelsData';
 
-export default function LabelList({selected, toggle}) {
+export default function LabelList({ selected, toggle }) {
   const labelQuery = useLabelsData();
   return (
     <div className="labels">
@@ -10,11 +10,11 @@ export default function LabelList({selected, toggle}) {
         <p>Loading...</p>
       ) : (
         <ul>
-          {labelQuery.data.map((label) => (
+          {labelQuery.data?.map((label) => (
             <li key={label.id}>
-              <button 
+              <button
                 onClick={() => toggle(label.id)}
-                className={` label ${selected.includes(label.id) ? "selected" : ""}${label.color}`}
+                className={` label ${selected.includes(label.id) ? 'selected' : ''}${label.color}`}
               >
                 {label.name}
               </button>
